@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>8Г класс — наш сайт</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&family=Unbounded:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg-soft: #f2faf5;
+    --bg-mint: #dff3e6;
+    --tint: #b9e3c9;
+    --ink: #0d3b29;
+    --ink-soft: #4a6a5a;
+    --green: #1e9e58;
+    --leaf-2: #7cc99a;
+    --fill: #137a43;
+    --on-fill: #ffffff;
+    --line: #d3eadb;
+    --dot-study: #1e9e58;
+    --dot-event: #8fcf2f;
+    --dot-notice: #0f6e5c;
+    --font-display: 'Unbounded', 'Manrope', system-ui, 'Segoe UI', Arial, sans-serif;
+    --font-body: 'Manrope', system-ui, 'Segoe UI', Arial, sans-serif;
+
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0a1f16;
+      --bg-soft: #0f2a1e;
+      --bg-mint: #163826;
+      --tint: #24583d;
+      --ink: #e6f5ec;
+      --ink-soft: #9dbcaa;
+      --green: #3fcb80;
+      --leaf-2: #2c7a52;
+      --fill: #3fcb80;
+      --on-fill: #062014;
+      --line: #1f4632;
+      --dot-study: #3fcb80;
+      --dot-event: #b4e15c;
+      --dot-notice: #4fd1b5;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0a1f16;
+    --bg-soft: #0f2a1e;
+    --bg-mint: #163826;
+    --tint: #24583d;
+    --ink: #e6f5ec;
+    --ink-soft: #9dbcaa;
+    --green: #3fcb80;
+    --leaf-2: #2c7a52;
+    --fill: #3fcb80;
+    --on-fill: #062014;
+    --line: #1f4632;
+    --dot-study: #3fcb80;
+    --dot-event: #b4e15c;
+    --dot-notice: #4fd1b5;
+  }
+
+  html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 90px); scroll-behavior: smooth; }
+  *, *::before, *::after { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3 { font-family: var(--font-display); line-height: 1.15; margin: 0; letter-spacing: -0.01em; }
+  p { margin: 0; }
+  button { font: inherit; color: inherit; cursor: pointer; }
+  :focus-visible { outline: 3px solid var(--green); outline-offset: 3px; border-radius: 8px; }
+
+  .wrap { width: min(1120px, 100% - 40px); margin-inline: auto; }
+
+  /* ---------- Шапка ---------- */
+  .top {
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    z-index: 10;
+    background: var(--bg);
+    background: color-mix(in srgb, var(--bg) 90%, transparent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+  .top-in { display: flex; align-items: center; justify-content: space-between; gap: 12px 24px; padding: 12px 0; flex-wrap: wrap; }
+  .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--ink); }
+  .brand-mark {
+    display: grid; place-items: center;
+    width: 46px; height: 46px; border-radius: 15px;
+    background: var(--fill); color: var(--on-fill);
+    font-family: var(--font-display); font-weight: 800; font-size: 1.05rem;
+  }
+  .brand-text { font-family: var(--font-display); font-weight: 700; font-size: 1rem; }
+
+  .tabs { display: flex; gap: 4px; padding: 5px; background: var(--bg-mint); border-radius: 999px; }
+  .tab {
+    border: 0; background: transparent; padding: 10px 20px; border-radius: 999px;
+    font-weight: 700; font-size: 0.95rem; color: var(--ink-soft); white-space: nowrap;
+    transition: background .2s, color .2s;
+  }
+  .tab:hover { color: var(--ink); }
+  .tab[aria-selected="true"] { background: var(--fill); color: var(--on-fill); }
+
+  /* ---------- Панели ---------- */
+  .panel[hidden] { display: none; }
+  .panel { padding-bottom: 72px; }
+
+  /* ---------- Главная: hero ---------- */
+  .hero { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 40px; align-items: center; padding: 56px 0 56px; }
+  .hero h1 { font-size: clamp(2rem, 5vw, 3.7rem); font-weight: 700; }
+  .lead { margin-top: 22px; font-size: 1.15rem; color: var(--ink-soft); max-width: 46ch; }
+  .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 14px 26px; border-radius: 999px; border: 2px solid var(--fill);
+    font-weight: 700; text-decoration: none; transition: transform .15s, background .2s;
+  }
+  .btn-fill { background: var(--fill); color: var(--on-fill); }
+  .btn-line { background: transparent; color: var(--ink); }
+  .btn:hover { transform: translateY(-2px); }
+  .btn-line:hover { background: var(--bg-mint); }
+
+  .emblem { justify-self: center; width: min(100%, 400px); animation: emblem-in 1s cubic-bezier(.2,.8,.2,1) both; }
+  .emblem svg { display: block; width: 100%; height: auto; }
+  .emb-text { font-family: var(--font-display); font-weight: 800; }
+  @keyframes emblem-in {
+    from { opacity: 0; transform: rotate(-24deg) scale(.86); }
+    to { opacity: 1; transform: none; }
+  }
+
+  /* ---------- Главная: новости ---------- */
+  .section-head { margin-bottom: 26px; }
+  .section-head h2 { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 700; }
+  .section-head p { margin-top: 8px; color: var(--ink-soft); }
+
+  .news { display: grid; grid-template-columns: 1.1fr 1fr; gap: 20px; }
+  .feature {
+    position: relative; overflow: hidden;
+    background: var(--fill); color: var(--on-fill);
+    border-radius: 32px; padding: 34px;
+    min-height: 380px; display: flex; flex-direction: column; justify-content: space-between; gap: 28px;
+  }
+  .feature::after {
+    content: ""; position: absolute; right: -90px; bottom: -110px;
+    width: 300px; height: 300px; border-radius: 50%;
+    border: 44px solid currentColor; opacity: .12; pointer-events: none;
+  }
+  .feature > * { position: relative; z-index: 1; }
+  .feature-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .feature .pill { background: rgba(255,255,255,.18); padding: 6px 14px; border-radius: 999px; font-size: .85rem; font-weight: 700; }
+  :root[data-theme="dark"] .feature .pill { background: rgba(6,32,20,.18); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .feature .pill { background: rgba(6,32,20,.18); } }
+  .feature time { font-weight: 700; opacity: .9; }
+  .feature h3 { font-size: clamp(1.4rem, 2.6vw, 1.9rem); font-weight: 700; margin-bottom: 14px; }
+  .feature p { max-width: 44ch; opacity: .95; }
+
+  .list { display: grid; gap: 16px; align-content: start; }
+  .item {
+    display: grid; grid-template-columns: 72px 1fr; gap: 18px;
+    padding: 20px; border: 1.5px solid var(--line); border-radius: 22px; background: var(--bg);
+    transition: border-color .2s, background .2s;
+  }
+  .item:hover { border-color: var(--green); background: var(--bg-soft); }
+  .date {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    width: 72px; height: 76px; border-radius: 16px; background: var(--bg-mint); line-height: 1;
+  }
+  .date b { font-family: var(--font-display); font-size: 1.6rem; font-weight: 700; }
+  .date span { margin-top: 6px; font-size: .8rem; font-weight: 700; color: var(--ink-soft); }
+  .tag { display: inline-flex; align-items: center; gap: 8px; font-size: .85rem; font-weight: 700; color: var(--ink-soft); }
+  .tag::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--dot-study); }
+  .tag.event::before { background: var(--dot-event); }
+  .tag.notice::before { background: var(--dot-notice); }
+  .item h3 { font-size: 1.05rem; font-weight: 700; margin: 6px 0 8px; line-height: 1.3; }
+  .item p { color: var(--ink-soft); font-size: .98rem; }
+
+  /* ---------- Достижения ---------- */
+  .page-head { padding: 56px 0 32px; }
+  .page-head h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 700; }
+  .page-head p { margin-top: 16px; color: var(--ink-soft); max-width: 52ch; font-size: 1.1rem; }
+
+  .empty {
+    display: grid; justify-items: center; text-align: center; gap: 14px;
+    padding: 56px 24px 64px; border: 2px dashed var(--tint); border-radius: 36px; background: var(--bg-soft);
+  }
+  .empty svg { width: 150px; height: auto; margin-bottom: 8px; }
+  .empty h2 { font-size: clamp(1.3rem, 3vw, 1.7rem); font-weight: 700; max-width: 22ch; }
+  .empty p { color: var(--ink-soft); max-width: 46ch; }
+
+  /* ---------- 8Г класс ---------- */
+  .class-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: stretch; }
+  .about { display: grid; gap: 28px; align-content: start; }
+  .about p { color: var(--ink-soft); font-size: 1.1rem; max-width: 50ch; }
+  .facts { margin: 0; border-top: 1.5px solid var(--line); }
+  .facts div { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 16px 0; border-bottom: 1.5px solid var(--line); }
+  .facts dt { color: var(--ink-soft); font-weight: 500; }
+  .facts dd { margin: 0; font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; }
+
+  .crowd-card { background: var(--bg-mint); border-radius: 36px; padding: 32px; display: grid; gap: 26px; align-content: center; }
+  .count { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+  .count-num { font-family: var(--font-display); font-weight: 800; font-size: clamp(4.5rem, 12vw, 7.5rem); line-height: .9; color: var(--fill); }
+  .count-label { font-weight: 700; font-size: 1.15rem; }
+  .crowd { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
+  .av { width: 100%; height: auto; display: block; --a-bg: var(--bg); --a-fg: var(--green); }
+  .av:nth-child(3n+2) { --a-bg: var(--fill); --a-fg: var(--on-fill); }
+  .av:nth-child(3n) { --a-bg: var(--tint); --a-fg: var(--fill); }
+  .av .bg { fill: var(--a-bg); }
+  .av .fg { fill: var(--a-fg); }
+  .crowd.play .av { animation: pop .5s cubic-bezier(.3,1.5,.5,1) both; animation-delay: calc(var(--i) * 32ms); }
+  @keyframes pop { from { opacity: 0; transform: scale(.3); } to { opacity: 1; transform: none; } }
+
+  /* ---------- Подвал ---------- */
+  .foot { border-top: 1px solid var(--line); padding: 26px 0 34px; color: var(--ink-soft); font-size: .95rem; }
+  .foot-in { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+
+  /* ---------- Адаптив ---------- */
+  @media (max-width: 860px) {
+    .hero { grid-template-columns: 1fr; gap: 28px; padding: 36px 0 44px; }
+    .emblem { width: min(74%, 300px); order: -1; }
+    .news, .class-grid { grid-template-columns: 1fr; }
+    .feature { min-height: 320px; padding: 28px; }
+  }
+  @media (max-width: 640px) {
+    .top-in { padding: 10px 0; }
+    .tabs { order: 3; width: 100%; }
+    .tab { flex: 1; padding: 10px 8px; font-size: .88rem; }
+    .brand-text { font-size: .95rem; }
+    .item { grid-template-columns: 60px 1fr; gap: 14px; padding: 16px; }
+    .date { width: 60px; height: 66px; }
+    .date b { font-size: 1.35rem; }
+    .crowd-card { padding: 24px 20px; border-radius: 28px; }
+    .crowd { gap: 8px; }
+    .empty { padding: 40px 18px 48px; border-radius: 28px; }
+  }
+  @media (max-width: 480px) {
+    .tab[data-go="achievements"] .opt { display: none; }
+    .tab[data-go="achievements"] { text-transform: capitalize; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .emblem, .crowd.play .av { animation: none; }
+    .btn, .tab, .item { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap top-in">
+    <a class="brand" href="#home" data-go="home" aria-label="8Г класс — на главную">
+      <span class="brand-mark">8Г</span>
+      <span class="brand-text">Наш класс</span>
+    </a>
+    <nav class="tabs" role="tablist" aria-label="Разделы сайта">
+      <button class="tab" role="tab" id="tab-home" aria-controls="panel-home" aria-selected="true" data-go="home">Главная</button>
+      <button class="tab" role="tab" id="tab-achievements" aria-controls="panel-achievements" aria-selected="false" tabindex="-1" data-go="achievements"><span class="opt">Наши </span>достижения</button>
+      <button class="tab" role="tab" id="tab-class" aria-controls="panel-class" aria-selected="false" tabindex="-1" data-go="class">8Г класс</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- ===================== ГЛАВНАЯ ===================== -->
+  <section class="panel" id="panel-home" role="tabpanel" aria-labelledby="tab-home">
+    <div class="wrap">
+      <div class="hero">
+        <div>
+          <h1>Добро пожаловать в 8Г</h1>
+          <p class="lead">Сайт нашего класса: свежие новости, будущие победы и всё о том, кто мы такие.</p>
+          <div class="actions">
+            <a class="btn btn-fill" href="#news">Читать новости</a>
+            <button class="btn btn-line" type="button" data-go="class">О нашем классе</button>
+          </div>
+        </div>
+
+        <div class="emblem" aria-hidden="true">
+          <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="200" cy="200" r="192" fill="var(--bg-mint)"/>
+            <circle cx="200" cy="200" r="132" fill="none" stroke="var(--tint)" stroke-width="2" stroke-dasharray="3 9" stroke-linecap="round"/>
+            <g>
+              <ellipse cx="200" cy="46" rx="24" ry="44" fill="var(--green)"/>
+              <ellipse cx="200" cy="52" rx="20" ry="32" fill="var(--leaf-2)" transform="rotate(60 200 200)"/>
+              <ellipse cx="200" cy="46" rx="24" ry="44" fill="var(--green)" transform="rotate(120 200 200)"/>
+              <ellipse cx="200" cy="52" rx="20" ry="32" fill="var(--leaf-2)" transform="rotate(180 200 200)"/>
+              <ellipse cx="200" cy="46" rx="24" ry="44" fill="var(--green)" transform="rotate(240 200 200)"/>
+              <ellipse cx="200" cy="52" rx="20" ry="32" fill="var(--leaf-2)" transform="rotate(300 200 200)"/>
+            </g>
+            <circle cx="200" cy="200" r="108" fill="var(--fill)"/>
+            <text class="emb-text" x="200" y="236" text-anchor="middle" font-size="96" fill="var(--on-fill)">8Г</text>
+          </svg>
+        </div>
+      </div>
+
+      <div id="news">
+        <div class="section-head">
+          <h2>Новости и объявления</h2>
+          <p>Что происходит в нашем классе прямо сейчас.</p>
+        </div>
+
+        <!-- Чтобы добавить новость, скопируйте блок <article class="item"> и поменяйте текст и дату. -->
+        <div class="news">
+          <article class="feature">
+            <div class="feature-top">
+              <span class="pill">Учёба</span>
+              <time datetime="2026-09-01">1 сентября</time>
+            </div>
+            <div>
+              <h3>Новый учебный год начался: 8Г снова в сборе</h3>
+              <p>Мы вернулись после каникул, увидели друг друга и познакомились с новым расписанием. Впереди много уроков, проектов и событий, и вместе у нас всё получится.</p>
+            </div>
+          </article>
+
+          <div class="list">
+            <article class="item">
+              <time class="date" datetime="2026-10-05"><b>5</b><span>окт.</span></time>
+              <div>
+                <span class="tag event">Событие</span>
+                <h3>Готовим поздравление ко Дню учителя</h3>
+                <p>Придумываем открытки, стихи и сюрприз для наших учителей. Идеи можно приносить старосте.</p>
+              </div>
+            </article>
+
+            <article class="item">
+              <time class="date" datetime="2026-09-28"><b>28</b><span>сент.</span></time>
+              <div>
+                <span class="tag">Учёба</span>
+                <h3>Первые проверочные работы: как подготовиться</h3>
+                <p>В конце месяца начнутся первые контрольные. Повторяйте темы заранее и помогайте друг другу.</p>
+              </div>
+            </article>
+
+            <article class="item">
+              <time class="date" datetime="2026-09-15"><b>15</b><span>сент.</span></time>
+              <div>
+                <span class="tag notice">Объявление</span>
+                <h3>График дежурств по классу</h3>
+                <p>Составлен график дежурств на осень. Проверьте свою очередь и следите за порядком в кабинете.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== НАШИ ДОСТИЖЕНИЯ ===================== -->
+  <section class="panel" id="panel-achievements" role="tabpanel" aria-labelledby="tab-achievements" hidden>
+    <div class="wrap">
+      <div class="page-head">
+        <h1>Наши достижения</h1>
+        <p>Олимпиады, конкурсы, соревнования и другие успехи 8Г.</p>
+      </div>
+
+      <div class="empty">
+        <svg viewBox="0 0 160 150" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <ellipse cx="80" cy="132" rx="62" ry="10" fill="var(--tint)"/>
+          <path d="M80 130 V70" stroke="var(--fill)" stroke-width="6" stroke-linecap="round" fill="none"/>
+          <path d="M80 92 C80 66 58 54 34 58 C34 84 54 98 80 92 Z" fill="var(--green)"/>
+          <path d="M80 74 C80 46 102 32 128 36 C128 64 106 80 80 74 Z" fill="var(--leaf-2)"/>
+          <path d="M80 92 C64 82 52 74 42 64" stroke="var(--bg-soft)" stroke-width="2.5" stroke-linecap="round" fill="none" opacity=".7"/>
+        </svg>
+        <h2>Здесь скоро появятся наши достижения</h2>
+        <p>Раздел пока пуст, но всё только начинается. Первые победы 8Г будут собраны на этой странице.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 8Г КЛАСС ===================== -->
+  <section class="panel" id="panel-class" role="tabpanel" aria-labelledby="tab-class" hidden>
+    <div class="wrap">
+      <div class="page-head">
+        <h1>8Г класс</h1>
+        <p>Мы учимся, помогаем друг другу и вместе участвуем в школьной жизни.</p>
+      </div>
+
+      <div class="class-grid">
+        <div class="about">
+          <p>8Г — дружный класс, в котором учатся 24 человека. Мы вместе готовимся к урокам, делаем проекты, поддерживаем друг друга и радуемся общим успехам.</p>
+          <dl class="facts">
+            <div><dt>Класс</dt><dd>8Г</dd></div>
+            <div><dt>Учебный год</dt><dd>2026/2027</dd></div>
+            <div><dt>Количество учеников</dt><dd>24</dd></div>
+          </dl>
+        </div>
+
+        <div class="crowd-card">
+          <div class="count">
+            <span class="count-num" id="count">24</span>
+            <span class="count-label">ученика в классе</span>
+          </div>
+          <div class="crowd" id="crowd" role="img" aria-label="24 ученика"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <span>8Г класс</span>
+    <span>Учебный год 2026/2027</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var TOTAL = 24;
+  var names = ['home', 'achievements', 'class'];
+  var titles = { home: '8Г класс — наш сайт', achievements: 'Наши достижения — 8Г', 'class': '8Г класс — о нас' };
+  var tabs = names.map(function (n) { return document.getElementById('tab-' + n); });
+  var panels = names.map(function (n) { return document.getElementById('panel-' + n); });
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Рисуем 24 «аватарки» учеников
+  var crowd = document.getElementById('crowd');
+  var avatar = '<svg class="av" viewBox="0 0 48 48" aria-hidden="true" style="--i:%i">' +
+    '<circle class="bg" cx="24" cy="24" r="24"/>' +
+    '<circle class="fg" cx="24" cy="18" r="8"/>' +
+    '<path class="fg" d="M8.5 39.5C10 32 16.5 28 24 28s14 4 15.5 11.5A24 24 0 0 1 8.5 39.5z"/></svg>';
+  var html = '';
+  for (var i = 0; i < TOTAL; i++) html += avatar.replace('%i', i);
+  crowd.innerHTML = html;
+
+  function playClass() {
+    var num = document.getElementById('count');
+    if (reduce) { num.textContent = TOTAL; return; }
+    crowd.classList.remove('play');
+    void crowd.offsetWidth;
+    crowd.classList.add('play');
+    var start = null, dur = 800;
+    function step(ts) {
+      if (start === null) start = ts;
+      var p = Math.min((ts - start) / dur, 1);
+      num.textContent = Math.round(TOTAL * (1 - Math.pow(1 - p, 3)));
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  function show(name, updateHash, focusTab) {
+    if (names.indexOf(name) === -1) name = 'home';
+    names.forEach(function (n, idx) {
+      var on = n === name;
+      panels[idx].hidden = !on;
+      tabs[idx].setAttribute('aria-selected', on ? 'true' : 'false');
+      tabs[idx].tabIndex = on ? 0 : -1;
+    });
+    document.title = titles[name];
+    if (focusTab) tabs[names.indexOf(name)].focus();
+    if (updateHash) {
+      try { history.replaceState(null, '', '#' + name); } catch (e) {}
+    }
+    window.scrollTo(0, 0);
+    if (name === 'class') playClass();
+  }
+
+  document.addEventListener('click', function (e) {
+    var el = e.target.closest('[data-go]');
+    if (!el) return;
+    e.preventDefault();
+    show(el.getAttribute('data-go'), true, false);
+  });
+
+  // Плавная прокрутка к новостям
+  var newsLink = document.querySelector('a[href="#news"]');
+  if (newsLink) {
+    newsLink.addEventListener('click', function (e) {
+      e.preventDefault();
+      var target = document.getElementById('news');
+      if (target) target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    });
+  }
+
+  // Переключение вкладок стрелками
+  tabs.forEach(function (tab, idx) {
+    tab.addEventListener('keydown', function (e) {
+      var next = null;
+      if (e.key === 'ArrowRight') next = (idx + 1) % names.length;
+      if (e.key === 'ArrowLeft') next = (idx - 1 + names.length) % names.length;
+      if (e.key === 'Home') next = 0;
+      if (e.key === 'End') next = names.length - 1;
+      if (next !== null) { e.preventDefault(); show(names[next], true, true); }
+    });
+  });
+
+  var initial = (location.hash || '').replace('#', '');
+  show(names.indexOf(initial) !== -1 ? initial : 'home', false, false);
+})();
+</script>
+</body>
+</html>
